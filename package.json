@@ -35,5 +35,8 @@
     "mocha": "^3.4.2",
     "power-assert": "^1.4.4",
     "sinon": "^2.3.5"
+  },
+  "engines": {
+    "node": "6.x"
   }
 }

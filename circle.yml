@@ -1,0 +1,13 @@
+general:
+  branches:
+    only:
+      - master
+      - /pull-req\/.*/
+      - /release\/.*/
+      - /hotfix\/.*/
+dependencies:
+  override:
+    - yarn install
+test:
+  override:
+    - yarn test
