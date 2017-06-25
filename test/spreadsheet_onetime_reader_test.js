@@ -6,13 +6,12 @@ import { SpreadsheetOnetimeReader } from '../lib/spreadsheet_onetime_reader'
 
 describe('SpreadsheetOnetimeReader', ()=> {
   var spreadsheet = undefined;
-  var fullValues  = JSON.parse(fs.readFileSync(__dirname + '/support/getValues.json', 'utf8'))
-  var smallAndSimpleValues = [
-    ['id', 'name', 'country'],
-    [1,    2,            3],
-    [4,    5,            6]
+  var fullValues = [
+    ["id", "name", "country"],
+    [1, "aiu", "Japan"],
+    [2, "eoka", "United States"],
+    [3, "kikuke", "United Kingdom"]
   ]
-  
   
   beforeEach(()=> {
     spreadsheet = new SpreadsheetOnetimeReader('abc')
@@ -63,12 +62,12 @@ describe('SpreadsheetOnetimeReader', ()=> {
   describe('#col', ()=> {
     beforeEach(()=> {
       spreadsheet.rawValues.restore()
-      sinon.stub(spreadsheet, 'rawValues').returns(smallAndSimpleValues)
+      sinon.stub(spreadsheet, 'rawValues').returns(fullValues)
     })
     
     it('has given valid colName coutry and return valid array', ()=> {
       assert.deepEqual(
-        [3, 6],
+        ["Japan", "United States", "United Kingdom"],
         spreadsheet.col('country')
       )
     })
@@ -160,11 +159,11 @@ describe('SpreadsheetOnetimeReader', ()=> {
   describe('#row', ()=> {
     beforeEach(()=> {
       spreadsheet.rawValues.restore()
-      sinon.stub(spreadsheet, 'rawValues').returns(smallAndSimpleValues)
+      sinon.stub(spreadsheet, 'rawValues').returns(fullValues)
     })
     
-    it('row 0 is [1, 2, 3]', ()=> {
-      assert.deepEqual([1, 2, 3], spreadsheet.row(0))
+    it('row 0 is [1, "aiu", "Japan"]', ()=> {
+      assert.deepEqual([1, "aiu", "Japan"], spreadsheet.row(0))
     })
     it('row 4 is undefined', ()=> {
       assert.equal(undefined, spreadsheet.row(4))
@@ -183,3 +182,4 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
   })
 })
+
