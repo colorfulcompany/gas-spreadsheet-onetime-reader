@@ -1,6 +1,6 @@
 import assert from 'power-assert'
 
-import { SimpleMultiplicity } from '../lib/simple_multiplicity'
+import SimpleMultiplicity from '../lib/simple_multiplicity'
 
 describe('SimpleMultiplicity', ()=> {
   describe('.from', ()=> {

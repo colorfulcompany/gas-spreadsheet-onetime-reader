@@ -2,7 +2,7 @@ import assert from 'power-assert'
 import sinon  from 'sinon'
 import fs     from 'fs'
 
-import { SpreadsheetOnetimeReader } from '../lib/spreadsheet_onetime_reader'
+import SpreadsheetOnetimeReader from '../lib/spreadsheet_onetime_reader'
 
 describe('SpreadsheetOnetimeReader', ()=> {
   var spreadsheet = undefined;
