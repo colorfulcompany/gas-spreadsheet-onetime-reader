@@ -291,6 +291,34 @@ describe('SpreadsheetOnetimeReader', ()=> {
         assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2, 3]))
       })
     })
+
+    describe('search result', ()=> {
+      describe('result exists', ()=> {
+        beforeEach(()=> {
+          spreadsheet.findByCol('country', /^United/)
+        })
+
+        it('search, then return result array of object [ {}, {} ]', ()=> {
+          assert.deepEqual(
+            [
+              {id: 2, name: 'eoka',   country: 'United States'},
+              {id: 3, name: 'kikuke', country: 'United Kingdom'}
+            ],
+            spreadsheet.toObject()
+          )
+        })
+      })
+
+      describe('result not exists', ()=> {
+        beforeEach(()=> {
+          spreadsheet.reset()
+        })
+
+        it('{}', ()=> {
+          assert.deepEqual({}, spreadsheet.toObject())
+        })
+      })
+    })
   })
 })
 
