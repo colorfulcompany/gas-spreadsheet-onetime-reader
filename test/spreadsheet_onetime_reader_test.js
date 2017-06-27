@@ -53,8 +53,20 @@ describe('SpreadsheetOnetimeReader', ()=> {
   });
 
   describe('#headers', ()=> {
-    it('include id, name, country', ()=> {
-      assert.deepEqual(['id', 'name', 'country'], spreadsheet.headers())
+    describe('getter', ()=> {
+      it('include id, name, country', ()=> {
+        assert.deepEqual(['id', 'name', 'country'], spreadsheet.headers())
+      })
+    })
+
+    describe('setter', ()=> {
+      beforeEach(()=> {
+        spreadsheet.headers(['first', 'middle', 'last'])
+      })
+
+      it('as is', ()=> {
+        assert.deepEqual(['first', 'middle', 'last'], spreadsheet.headers())
+      })
     })
   });
 
@@ -193,14 +205,30 @@ describe('SpreadsheetOnetimeReader', ()=> {
   })
   
   describe('#toObject', ()=> {
-    it('1, 2, and missing is assigned with undefined', ()=> {
-      assert.deepEqual(
-        {
-          id:         1,
-          name:       2,
-          country:    undefined
-        },
-        spreadsheet.toObject([1, 2]))
+    describe('1, 2, and missing is assigned with undefined', ()=> {
+      it('{id: 1, name: 2, country: undefined},', ()=> {
+        assert.deepEqual(
+          {
+            id:         1,
+            name:       2,
+            country:    undefined
+          },
+          spreadsheet.toObject([1, 2]))
+      })
+    })
+
+    describe('with modified headers [first, last]', ()=> {
+      beforeEach(()=> {
+        spreadsheet.headers(['first', 'last'])
+      })
+
+      it('given [1, 2] and return {first: 1, last: 2}', ()=> {
+        assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2]))
+      })
+
+      it('given [1, 2, 3] and trim last col', ()=> {
+        assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2, 3]))
+      })
     })
   })
 })
