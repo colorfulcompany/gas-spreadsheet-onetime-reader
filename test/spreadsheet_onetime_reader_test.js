@@ -22,6 +22,22 @@ describe('SpreadsheetOnetimeReader', ()=> {
     if ( typeof spreadsheet.rawValues.restore !== 'undefined' ) { spreadsheet.rawValues.restore() }
   })
 
+  describe('#opts', ()=> {
+    describe('default skip_headers', ()=> {
+      it('1', ()=> {
+        assert.equal(1, spreadsheet.opts().skip_headers)
+      })
+    })
+    describe('given {skip_headers: 2}', ()=> {
+      beforeEach(()=> {
+        spreadsheet = new SpreadsheetOnetimeReader('abc', {}, {skip_headers: 2})
+      })
+      it('2', ()=> {
+        assert.equal(2, spreadsheet.opts().skip_headers)
+      })
+    })
+  })
+
   describe('#sheet', ()=> {
     var values = undefined
 
