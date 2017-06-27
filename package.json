@@ -7,7 +7,8 @@
     "build": "babel lib --out-dir dist",
     "node": "node --require babel-register",
     "test": "mocha --require intelli-espower-loader --require babel-register --recursive test",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "doc": "jsdoc -r -P ./package.json -d ./doc lib/"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "babel-preset-gas": "^1.0.0",
     "babel-register": "^6.24.1",
     "intelli-espower-loader": "^1.0.1",
+    "jsdoc": "^3.4.3",
     "mocha": "^3.4.2",
     "power-assert": "^1.4.4",
     "sinon": "^2.3.5"
