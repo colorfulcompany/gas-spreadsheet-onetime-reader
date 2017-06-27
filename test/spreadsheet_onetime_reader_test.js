@@ -87,8 +87,20 @@ describe('SpreadsheetOnetimeReader', ()=> {
   });
 
   describe('#skipHeaders', ()=> {
-    it('miss first array', ()=> {
-      assert.deepEqual([ [1, 2, 3], [4, 5, 6] ], spreadsheet.skipHeaders([ [0, 0, 0], [1, 2, 3], [4, 5, 6] ]))
+    describe('default skip_headers', ()=> {
+      it('miss first array', ()=> {
+        assert.deepEqual([ [1, 2, 3], [4, 5, 6] ], spreadsheet.skipHeaders([ [0, 0, 0], [1, 2, 3], [4, 5, 6] ]))
+      })
+    })
+
+    describe('given {skip_headers: 2} option', ()=> {
+      beforeEach(()=> {
+        spreadsheet = new SpreadsheetOnetimeReader('abc', null, {skip_headers: 2})
+      })
+
+      it('trim 2 lines from head', ()=> {
+        assert.deepEqual([ [4, 5, 6] ], spreadsheet.skipHeaders([ [0, 0, 0], [1, 2, 3], [4, 5, 6] ]))
+      })
     })
   });
 
