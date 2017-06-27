@@ -7,6 +7,7 @@
     "build": "babel lib --out-dir dist",
     "node": "node --require babel-register",
     "test": "mocha --require intelli-espower-loader --require babel-register --recursive test",
+    "lint": "eslint lib",
     "postinstall": "npm run build",
     "doc": "jsdoc -r -P ./package.json -d ./doc lib/"
   },
@@ -33,10 +34,21 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-gas": "^1.0.0",
     "babel-register": "^6.24.1",
+    "eslint": "^4.1.1",
     "intelli-espower-loader": "^1.0.1",
     "jsdoc": "^3.4.3",
     "mocha": "^3.4.2",
     "power-assert": "^1.4.4",
     "sinon": "^2.3.5"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVerision": 6,
+      "sourceType": "module"
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-var": "warn"
+    }
   }
 }
