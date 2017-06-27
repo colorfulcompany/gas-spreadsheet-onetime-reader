@@ -14,11 +14,33 @@ describe('SpreadsheetOnetimeReader', ()=> {
   ]
   
   beforeEach(()=> {
-    spreadsheet = new SpreadsheetOnetimeReader('abc')
+    spreadsheet = new SpreadsheetOnetimeReader('abc', {openById: function(){}})
     sinon.stub(spreadsheet, 'rawValues').returns(fullValues)
+    sinon.stub(spreadsheet, 'book').returns({getSheetByName: function(){ return {} }})
   })
   afterEach(() => {
     if ( typeof spreadsheet.rawValues.restore !== 'undefined' ) { spreadsheet.rawValues.restore() }
+  })
+
+  describe('#sheet', ()=> {
+    var values = undefined
+
+    beforeEach(()=> {
+      values = spreadsheet.values()
+    })
+
+    describe('', ()=> {
+      it('values() memoize', ()=> {
+        assert( spreadsheet._values.length > 0 )
+      })
+    })
+
+    describe('clear memoized _values when switch sheet', ()=> {
+      it('', ()=> {
+        spreadsheet.sheet('foo')
+        assert.equal( 'undefined', typeof spreadsheet._values )
+      })
+    })
   })
 
   describe('#rawValues', ()=> {
