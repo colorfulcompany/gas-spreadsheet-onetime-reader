@@ -23,17 +23,50 @@ describe('SpreadsheetOnetimeReader', ()=> {
   })
 
   describe('#opts', ()=> {
-    describe('default skip_headers', ()=> {
-      it('1', ()=> {
-        assert.equal(1, spreadsheet.opts().skip_headers)
+    describe('getter', ()=> {
+      describe('default skip_headers', ()=> {
+        it('1', ()=> {
+          assert.equal(1, spreadsheet.opts().skip_headers)
+        })
+      })
+      describe('given {skip_headers: 2}', ()=> {
+        beforeEach(()=> {
+          spreadsheet = new SpreadsheetOnetimeReader('abc', {}, {skip_headers: 2})
+        })
+        it('2', ()=> {
+          assert.equal(2, spreadsheet.opts().skip_headers)
+        })
       })
     })
-    describe('given {skip_headers: 2}', ()=> {
-      beforeEach(()=> {
-        spreadsheet = new SpreadsheetOnetimeReader('abc', {}, {skip_headers: 2})
+
+    describe('setter', ()=> {
+      describe("given {foo: 'bar'}", ()=> {
+        it("return {skip_headers: 1, foo: 'bar'}", ()=> {
+          assert.deepEqual(
+            {
+              skip_headers: 1,
+              foo: 'bar'
+            },
+            spreadsheet.opts({foo: 'bar'})
+          )
+        })
       })
-      it('2', ()=> {
-        assert.equal(2, spreadsheet.opts().skip_headers)
+
+      describe("given {skip_headers: 0}", ()=> {
+        describe('return value', ()=> {
+          it('', ()=> {
+            assert.deepEqual({skip_headers: 0}, spreadsheet.opts({skip_headers: 0}))
+          })
+        })
+
+        describe('set and get', ()=> {
+          beforeEach(()=> {
+            spreadsheet.opts({skip_headers: 0})
+          })
+          it('', ()=> {
+            assert.deepEqual({skip_headers: 0}, spreadsheet.opts())
+          })
+        })
       })
     })
   })
