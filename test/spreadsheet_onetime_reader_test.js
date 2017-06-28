@@ -101,6 +101,20 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
   })
 
+  describe('#newReader', ()=> {
+    beforeEach(()=> {
+      spreadsheet.sheet('foo')
+      sinon.stub(SpreadsheetOnetimeReader.prototype, 'book').returns({getSheetByName: function(){}})
+    })
+    afterEach(()=> {
+      SpreadsheetOnetimeReader.prototype.book.restore()
+    })
+
+    it('return new instance', ()=> {
+      assert(spreadsheet.newReader('bar') instanceof SpreadsheetOnetimeReader)
+    })
+  })
+
   describe('#rawValues', ()=> {
     it('type of whole values', ()=> {
       assert(Array.isArray(spreadsheet.rawValues()))
