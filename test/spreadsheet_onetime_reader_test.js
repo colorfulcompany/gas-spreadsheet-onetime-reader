@@ -2,7 +2,7 @@ import assert from 'power-assert'
 import sinon  from 'sinon'
 import fs     from 'fs'
 
-import SpreadsheetOnetimeReader from '../lib/spreadsheet_onetime_reader'
+import SpreadsheetOnetimeReader, { SheetAlreadySpecified } from '../lib/spreadsheet_onetime_reader'
 
 describe('SpreadsheetOnetimeReader', ()=> {
   var spreadsheet = undefined;
@@ -88,6 +88,15 @@ describe('SpreadsheetOnetimeReader', ()=> {
       it('', ()=> {
         spreadsheet.sheet('foo')
         assert.equal( 'undefined', typeof spreadsheet._values )
+      })
+    })
+
+    describe('sheet specified twice is not allowed', ()=> {
+      beforeEach(()=> {
+        spreadsheet.sheet('foo')
+      })
+      it('throw error', ()=> {
+        assert.throws(()=> {spreadsheet.sheet('bar')}, /{}/)
       })
     })
   })
@@ -321,4 +330,3 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
   })
 })
-
