@@ -206,23 +206,23 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
   })
   
-  describe('#findByCol', ()=> {
+  describe('#search', ()=> {
     describe('single arg', ()=> {
       describe('full match', ()=> {
         it('given number and found and return array of array', ()=> {
           assert.deepEqual(
             [3, "kikuke", "United Kingdom"],
-            spreadsheet.findByCol('id', 3)[0]
+            spreadsheet.search('id', 3)[0]
           )
         })
         it('given string and found and return array of array', ()=> {
           assert.deepEqual(
             [3, "kikuke", "United Kingdom"],
-            spreadsheet.findByCol('id', '3')[0]
+            spreadsheet.search('id', '3')[0]
           )
         })
         it('given number and not found and return empty array', ()=> {
-          assert.deepEqual([], spreadsheet.findByCol('id', 1234567890))
+          assert.deepEqual([], spreadsheet.search('id', 1234567890))
         })
       })
       describe('pattern match', ()=> {
@@ -232,11 +232,11 @@ describe('SpreadsheetOnetimeReader', ()=> {
               [2, "eoka", "United States"],
               [3, "kikuke", "United Kingdom"]
             ],
-            spreadsheet.findByCol('country', /^United/)
+            spreadsheet.search('country', /^United/)
           )
         })
         it('given RE object and not found and return empty array', ()=> {
-          assert.deepEqual([], spreadsheet.findByCol('id', /[a-z]/))
+          assert.deepEqual([], spreadsheet.search('id', /[a-z]/))
         })
       })
     })
@@ -246,19 +246,19 @@ describe('SpreadsheetOnetimeReader', ()=> {
         it('uniq', ()=> {
           assert.deepEqual(
             [1, 2, 3],
-            spreadsheet.findByCol('or', [ ['id', 1], ['country', /^United/] ]).map((e)=> {return e[0]})
+            spreadsheet.search('or', [ ['id', 1], ['country', /^United/] ]).map((e)=> {return e[0]})
           )
         })
         it('duplicated', ()=> {
           assert.deepEqual(
             [2, 3],
-            spreadsheet.findByCol('or', [ ['country', /United/], ['country', /States/] ]).map((e)=> {return e[0]})
+            spreadsheet.search('or', [ ['country', /United/], ['country', /States/] ]).map((e)=> {return e[0]})
           )
         })
         it('not found and return empty array', ()=> {
           assert.deepEqual(
             [],
-            spreadsheet.findByCol('or', [ ['id', 1000], ['prefecture', 'tokyo'] ])
+            spreadsheet.search('or', [ ['id', 1000], ['prefecture', 'tokyo'] ])
           )
         })
       })
@@ -267,19 +267,19 @@ describe('SpreadsheetOnetimeReader', ()=> {
         it('found', ()=> {
           assert.deepEqual(
             [2, 3],
-            spreadsheet.findByCol('and', [ ['id', /^[0-9]{1}$/], ['country', /United/] ]).map((e)=> {return e[0]})
+            spreadsheet.search('and', [ ['id', /^[0-9]{1}$/], ['country', /United/] ]).map((e)=> {return e[0]})
           )
         })
         it('two conds given and found only each one cond and return empty array', ()=> {
           assert.deepEqual(
             [],
-            spreadsheet.findByCol('and', [ ['id', 2], ['country', 'Japan'] ])
+            spreadsheet.search('and', [ ['id', 2], ['country', 'Japan'] ])
           )
         })
         it('not found and return empty array', ()=> {
           assert.deepEqual(
             [],
-            spreadsheet.findByCol('and', [ ['id', 10], ['country', 'China'] ])
+            spreadsheet.search('and', [ ['id', 10], ['country', 'China'] ])
           )
         })
       })
@@ -330,7 +330,7 @@ describe('SpreadsheetOnetimeReader', ()=> {
     describe('search result', ()=> {
       describe('result exists', ()=> {
         beforeEach(()=> {
-          spreadsheet.findByCol('country', /^United/)
+          spreadsheet.search('country', /^United/)
         })
 
         it('search, then return result array of object [ {}, {} ]', ()=> {
