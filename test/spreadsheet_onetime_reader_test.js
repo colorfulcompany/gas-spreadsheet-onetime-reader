@@ -45,6 +45,7 @@ describe('SpreadsheetOnetimeReader', ()=> {
           assert.deepEqual(
             {
               skip_headers: 1,
+              header_converter: 'toLowerCase',
               foo: 'bar'
             },
             spreadsheet.opts({foo: 'bar'})
@@ -55,7 +56,13 @@ describe('SpreadsheetOnetimeReader', ()=> {
       describe("given {skip_headers: 0}", ()=> {
         describe('return value', ()=> {
           it('', ()=> {
-            assert.deepEqual({skip_headers: 0}, spreadsheet.opts({skip_headers: 0}))
+            assert.deepEqual(
+              {
+                skip_headers: 0,
+                header_converter: 'toLowerCase'
+              },
+              spreadsheet.opts({skip_headers: 0})
+            )
           })
         })
 
@@ -64,7 +71,12 @@ describe('SpreadsheetOnetimeReader', ()=> {
             spreadsheet.opts({skip_headers: 0})
           })
           it('', ()=> {
-            assert.deepEqual({skip_headers: 0}, spreadsheet.opts())
+            assert.deepEqual(
+              {
+                skip_headers: 0,
+                header_converter: 'toLowerCase'
+              },
+              spreadsheet.opts())
           })
         })
       })
