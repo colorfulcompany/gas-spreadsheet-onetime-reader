@@ -5,16 +5,17 @@ import fs     from 'fs'
 import SpreadsheetOnetimeReader, { SheetAlreadySpecified } from '../lib/spreadsheet_onetime_reader'
 
 describe('SpreadsheetOnetimeReader', ()=> {
-  var spreadsheet = undefined;
-  var fullValues = [
+  let spreadsheet = undefined;
+  let fullValues = [
     ["id", "name", "country"],
     [1, "aiu", "Japan"],
     [2, "eoka", "United States"],
     [3, "kikuke", "United Kingdom"]
   ]
-  
+  let dummyApp = {openById: function(){}}
+
   beforeEach(()=> {
-    spreadsheet = new SpreadsheetOnetimeReader('abc', {openById: function(){}})
+    spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc')
     sinon.stub(spreadsheet, 'rawValues').returns(fullValues)
     sinon.stub(spreadsheet, 'book').returns({getSheetByName: function(){ return {} }})
   })
@@ -31,7 +32,7 @@ describe('SpreadsheetOnetimeReader', ()=> {
       })
       describe('given {skip_headers: 2}', ()=> {
         beforeEach(()=> {
-          spreadsheet = new SpreadsheetOnetimeReader('abc', {}, {skip_headers: 2})
+          spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skip_headers: 2})
         })
         it('2', ()=> {
           assert.equal(2, spreadsheet.opts().skip_headers)
@@ -163,7 +164,7 @@ describe('SpreadsheetOnetimeReader', ()=> {
 
     describe('given {skip_headers: 2} option', ()=> {
       beforeEach(()=> {
-        spreadsheet = new SpreadsheetOnetimeReader('abc', null, {skip_headers: 2})
+        spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skip_headers: 2})
       })
 
       it('trim 2 lines from head', ()=> {
