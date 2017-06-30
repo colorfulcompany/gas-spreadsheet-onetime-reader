@@ -47,8 +47,13 @@
       "sourceType": "module"
     },
     "extends": "eslint:recommended",
+    "env": {
+      "node": true,
+      "browser": true
+    },
     "rules": {
-      "no-var": "warn"
+      "no-var": "warn",
+      "no-console": ["error", {"allow": ["warn", "error"]}]
     }
   }
 }
