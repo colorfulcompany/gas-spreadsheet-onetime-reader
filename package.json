@@ -52,7 +52,7 @@
       "browser": true
     },
     "rules": {
-      "no-var": "warn",
+      "no-var": "error",
       "no-console": ["error", {"allow": ["warn", "error"]}]
     }
   }
