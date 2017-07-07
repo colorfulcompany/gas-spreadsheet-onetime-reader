@@ -290,6 +290,24 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
   })
 
+  describe('#_filterByCols', ()=> {
+    let record = [1, "aiu", "country"]
+
+    describe('with operator', ()=> {
+      describe('==', ()=> {
+        it("wrong order 'id', '==', 1", ()=> {
+          assert.equal(
+            false,
+            spreadsheet._filterByCols(record, ['id', '==', 1]))
+        })
+
+        it("correct order '==', 'id', 1", ()=> {
+          assert(spreadsheet._filterByCols(record, ['==', 'id', 1]))
+        })
+      })
+    })
+  })
+
   describe('#row', ()=> {
     beforeEach(()=> {
       spreadsheet.rawValues.restore()
