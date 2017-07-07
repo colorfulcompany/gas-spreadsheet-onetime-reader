@@ -243,6 +243,19 @@ describe('SpreadsheetOnetimeReader', ()=> {
           assert.deepEqual([], spreadsheet.search('~', 'id', /[a-z]/))
         })
       })
+      it('<', ()=> {
+        assert.deepEqual(
+          [ [1, "aiu", "Japan"] ],
+          spreadsheet.search('<', 'id', 2))
+      })
+      it('>=', ()=> {
+        assert.deepEqual(
+          [
+            [2, "eoka", "United States"],
+            [3, "kikuke", "United Kingdom"]
+          ],
+          spreadsheet.search('>=', 'id', 2))
+      })
     })
 
     describe('multiple args', ()=> {
