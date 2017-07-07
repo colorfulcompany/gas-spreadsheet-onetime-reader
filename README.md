@@ -17,10 +17,10 @@ let sheet = new SpreadsheetOnetimeReader(
   <bookId>,
   <sheetName>,
   opts = {
-    skip_headers: <num>
+    skipHeaders: <num>
   })
 
-sheet.search('and', [ ['id', /^201706[0-9]+/], ['name', 'Aiu'] ])
+sheet.search('and', [ ['~', 'id', /^201706[0-9]+/], ['==', 'name', 'Aiu'] ])
 sheet.toObject()
 ```
 
@@ -40,5 +40,27 @@ result
   },
   ...
 ]
+```
 
+and narrowing with `pickFields` option
+
+```javascript
+sheet.opts({pickFields: ['id', 'point']})
+sheet.toObject()
+```
+
+result
+
+```javascript
+[
+  {
+    id:    2017062101,
+    point: 79
+  },
+  {
+    id:    2017062812,
+    point: 64
+  },
+  ...
+]
 ```
