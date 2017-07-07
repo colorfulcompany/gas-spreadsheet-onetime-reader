@@ -305,6 +305,21 @@ describe('SpreadsheetOnetimeReader', ()=> {
           assert(spreadsheet._filterByCols(record, ['==', 'id', 1]))
         })
       })
+      it('!= causes false', ()=> {
+        assert.equal(false, spreadsheet._filterByCols(record, ['!=', 'id', 1]))
+      })
+      it('=== causes false', ()=> {
+        assert.equal(false, spreadsheet._filterByCols(record, ['===', 'id', '1']))
+      })
+      it('< causes true', ()=> {
+        assert.equal(true, spreadsheet._filterByCols(record, ['<', 'id', 2]))
+      })
+      it('> causes false', ()=> {
+        assert.equal(false, spreadsheet._filterByCols(record, ['>', 'id', 1]))
+      })
+      it('>= causes true', ()=> {
+        assert.equal(true, spreadsheet._filterByCols(record, ['>=', 'id', 1]))
+      })
     })
   })
 
