@@ -303,7 +303,26 @@ describe('SpreadsheetOnetimeReader', ()=> {
       assert.equal(undefined, spreadsheet.row(4))
     })
   })
-  
+
+  describe('#fieldsForWriting', ()=> {
+    describe('default', ()=> {
+      it('same as header()', ()=> {
+        assert.deepEqual(['id', 'name', 'country'],
+                         spreadsheet.fieldsForWriting())
+      })
+    })
+
+    describe('set id and name only', ()=> {
+      beforeEach(()=> {
+        spreadsheet.opts({pickFields: ['id', 'name']})
+      })
+
+      it('id and name only', ()=> {
+        assert.deepEqual(['id', 'name'], spreadsheet.fieldsForWriting())
+      })
+    })
+  })
+
   describe('#toObject', ()=> {
     describe('1, 2, and missing is assigned with undefined', ()=> {
       it('{id: 1, name: 2, country: undefined},', ()=> {
