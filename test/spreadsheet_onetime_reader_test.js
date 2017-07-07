@@ -47,6 +47,7 @@ describe('SpreadsheetOnetimeReader', ()=> {
             {
               skipHeaders: 1,
               headerConverter: 'toLowerCase',
+              pickFields: undefined,
               foo: 'bar'
             },
             spreadsheet.opts({foo: 'bar'})
@@ -60,7 +61,8 @@ describe('SpreadsheetOnetimeReader', ()=> {
             assert.deepEqual(
               {
                 skipHeaders: 0,
-                headerConverter: 'toLowerCase'
+                headerConverter: 'toLowerCase',
+                pickFields: undefined
               },
               spreadsheet.opts({skipHeaders: 0})
             )
@@ -75,7 +77,8 @@ describe('SpreadsheetOnetimeReader', ()=> {
             assert.deepEqual(
               {
                 skipHeaders: 0,
-                headerConverter: 'toLowerCase'
+                headerConverter: 'toLowerCase',
+                pickFields: undefined
               },
               spreadsheet.opts())
           })
