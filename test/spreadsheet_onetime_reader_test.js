@@ -337,20 +337,32 @@ describe('SpreadsheetOnetimeReader', ()=> {
     })
 
     describe('with modified headers [first, last]', ()=> {
-      beforeEach(()=> {
-        spreadsheet.headers(['first', 'last'])
+      let headerOrSkipFieldsTest = ()=> {
+        it('given [1] and return {first: 1, last: null}', ()=> {
+          assert.deepEqual({first: 1, last: null}, spreadsheet.toObject([1]))
+        })
+
+        it('given [1, 2] and return {first: 1, last: 2}', ()=> {
+          assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2]))
+        })
+
+        it('given [1, 2, 3] and trim last col', ()=> {
+          assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2, 3]))
+        })
+      }
+
+      describe('with headers()', ()=> {
+        beforeEach(()=> {
+          spreadsheet.headers(['first', 'last'])
+        })
+        headerOrSkipFieldsTest()
       })
 
-      it('given [1] and return {first: 1, last: null}', ()=> {
-        assert.deepEqual({first: 1, last: null}, spreadsheet.toObject([1]))
-      })
-
-      it('given [1, 2] and return {first: 1, last: 2}', ()=> {
-        assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2]))
-      })
-
-      it('given [1, 2, 3] and trim last col', ()=> {
-        assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2, 3]))
+      describe("with opts['pickFields']", ()=> {
+        beforeEach(()=> {
+          spreadsheet.opts({pickFields: ['first', 'last']})
+        })
+        headerOrSkipFieldsTest()
       })
     })
 
