@@ -436,6 +436,21 @@ describe('SpreadsheetOnetimeReader', ()=> {
             spreadsheet.toObject()
           )
         })
+
+        describe('w/ pickFields', ()=> {
+          beforeEach(()=> {
+            spreadsheet.opts({pickFields: ['id', 'name']})
+          })
+          it('narrowed w/ pickFields', ()=> {
+            assert.deepEqual(
+              [
+                {id: 2, name: 'eoka'},
+                {id: 3, name: 'kikuke'}
+              ],
+              spreadsheet.toObject()
+            )
+          })
+        })
       })
 
       describe('result not exists', ()=> {
