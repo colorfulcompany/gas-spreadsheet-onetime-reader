@@ -53,7 +53,8 @@
     },
     "rules": {
       "no-var": "error",
-      "no-console": ["error", {"allow": ["warn", "error"]}]
+      "no-console": ["error", {"allow": ["warn", "error"]}],
+      "camelcase": "error"
     }
   }
 }

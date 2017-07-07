@@ -25,28 +25,28 @@ describe('SpreadsheetOnetimeReader', ()=> {
 
   describe('#opts', ()=> {
     describe('getter', ()=> {
-      describe('default skip_headers', ()=> {
+      describe('default skipHeaders', ()=> {
         it('1', ()=> {
-          assert.equal(1, spreadsheet.opts().skip_headers)
+          assert.equal(1, spreadsheet.opts().skipHeaders)
         })
       })
-      describe('given {skip_headers: 2}', ()=> {
+      describe('given {skipHeaders: 2}', ()=> {
         beforeEach(()=> {
-          spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skip_headers: 2})
+          spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skipHeaders: 2})
         })
         it('2', ()=> {
-          assert.equal(2, spreadsheet.opts().skip_headers)
+          assert.equal(2, spreadsheet.opts().skipHeaders)
         })
       })
     })
 
     describe('setter', ()=> {
       describe("given {foo: 'bar'}", ()=> {
-        it("return {skip_headers: 1, foo: 'bar'}", ()=> {
+        it("return {skipHeaders: 1, foo: 'bar'}", ()=> {
           assert.deepEqual(
             {
-              skip_headers: 1,
-              header_converter: 'toLowerCase',
+              skipHeaders: 1,
+              headerConverter: 'toLowerCase',
               foo: 'bar'
             },
             spreadsheet.opts({foo: 'bar'})
@@ -54,28 +54,28 @@ describe('SpreadsheetOnetimeReader', ()=> {
         })
       })
 
-      describe("given {skip_headers: 0}", ()=> {
+      describe("given {skipHeaders: 0}", ()=> {
         describe('return value', ()=> {
           it('', ()=> {
             assert.deepEqual(
               {
-                skip_headers: 0,
-                header_converter: 'toLowerCase'
+                skipHeaders: 0,
+                headerConverter: 'toLowerCase'
               },
-              spreadsheet.opts({skip_headers: 0})
+              spreadsheet.opts({skipHeaders: 0})
             )
           })
         })
 
         describe('set and get', ()=> {
           beforeEach(()=> {
-            spreadsheet.opts({skip_headers: 0})
+            spreadsheet.opts({skipHeaders: 0})
           })
           it('', ()=> {
             assert.deepEqual(
               {
-                skip_headers: 0,
-                header_converter: 'toLowerCase'
+                skipHeaders: 0,
+                headerConverter: 'toLowerCase'
               },
               spreadsheet.opts())
           })
@@ -156,15 +156,15 @@ describe('SpreadsheetOnetimeReader', ()=> {
   });
 
   describe('#skipHeaders', ()=> {
-    describe('default skip_headers', ()=> {
+    describe('default skipHeaders', ()=> {
       it('miss first array', ()=> {
         assert.deepEqual([ [1, 2, 3], [4, 5, 6] ], spreadsheet.skipHeaders([ [0, 0, 0], [1, 2, 3], [4, 5, 6] ]))
       })
     })
 
-    describe('given {skip_headers: 2} option', ()=> {
+    describe('given {skipHeaders: 2} option', ()=> {
       beforeEach(()=> {
-        spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skip_headers: 2})
+        spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, {skipHeaders: 2})
       })
 
       it('trim 2 lines from head', ()=> {
