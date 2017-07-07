@@ -1,6 +1,6 @@
 {
   "name": "gas-spreadsheet-onetime-reader",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "simple spreadsheet reader ( currently limited with read once )",
   "main": "dist/spreadsheet_onetime_reader.js",
   "scripts": {
@@ -53,7 +53,8 @@
     },
     "rules": {
       "no-var": "error",
-      "no-console": ["error", {"allow": ["warn", "error"]}]
+      "no-console": ["error", {"allow": ["warn", "error"]}],
+      "camelcase": "error"
     }
   }
 }
