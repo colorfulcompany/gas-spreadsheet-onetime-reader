@@ -341,6 +341,10 @@ describe('SpreadsheetOnetimeReader', ()=> {
         spreadsheet.headers(['first', 'last'])
       })
 
+      it('given [1] and return {first: 1, last: null}', ()=> {
+        assert.deepEqual({first: 1, last: null}, spreadsheet.toObject([1]))
+      })
+
       it('given [1, 2] and return {first: 1, last: 2}', ()=> {
         assert.deepEqual({first: 1, last: 2}, spreadsheet.toObject([1, 2]))
       })
