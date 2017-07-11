@@ -115,6 +115,21 @@ describe('SpreadsheetOnetimeReader', ()=> {
         assert.throws(()=> {spreadsheet.sheet('bar')}, /{}/)
       })
     })
+
+    describe('not specified sheetName and return ActiveSheet', ()=> {
+      beforeEach(()=> {
+        spreadsheet.book.restore()
+        sinon.stub(spreadsheet, 'book').returns({getActiveSheet: function() { return {} }})
+      })
+
+      it('called getActiveSheet()', ()=> {
+        let book = sinon.mock(spreadsheet.book())
+        book.expects('getActiveSheet').once()
+        spreadsheet.sheet()
+
+        book.verify()
+      })
+    })
   })
 
   describe('#newReader', ()=> {
