@@ -48,7 +48,8 @@ describe('SpreadsheetOnetimeReader', ()=> {
               skipHeaders: 1,
               headerConverter: 'toLowerCase',
               pickFields: undefined,
-              foo: 'bar'
+              foo: 'bar',
+              strictComparison: false
             },
             spreadsheet.opts({foo: 'bar'})
           )
@@ -62,7 +63,8 @@ describe('SpreadsheetOnetimeReader', ()=> {
               {
                 skipHeaders: 0,
                 headerConverter: 'toLowerCase',
-                pickFields: undefined
+                pickFields: undefined,
+                strictComparison: false
               },
               spreadsheet.opts({skipHeaders: 0})
             )
@@ -78,7 +80,8 @@ describe('SpreadsheetOnetimeReader', ()=> {
               {
                 skipHeaders: 0,
                 headerConverter: 'toLowerCase',
-                pickFields: undefined
+                pickFields: undefined,
+                strictComparison: false
               },
               spreadsheet.opts())
           })
@@ -418,6 +421,27 @@ describe('SpreadsheetOnetimeReader', ()=> {
       describe('compare with empty string', ()=> {
         it('>= not match', ()=> {
           assert.equal(false, spreadsheet._filterByCols(['', '', ''], ['>=', 'id', 1]))
+        })
+      })
+
+      describe('strictComparison', ()=> {
+        before('default', ()=> {
+          it("'' < 1 is true", ()=> {
+            assert.equal(true,
+                         spreadsheet._filterByCols(['', '', ''],
+                                                   ['<', 'id', 1]))
+          })
+        })
+
+        describe('strict', ()=> {
+          beforeEach(()=> {
+            spreadsheet.opts({strictComparison: true})
+          })
+          it("'' < 1 is false", ()=> {
+            assert.equal(false,
+                         spreadsheet._filterByCols(['','',''],
+                                                   ['<', 'id', 1]))
+          })
         })
       })
     })
