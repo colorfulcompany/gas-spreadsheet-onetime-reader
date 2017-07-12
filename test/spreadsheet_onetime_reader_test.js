@@ -443,6 +443,23 @@ describe('SpreadsheetOnetimeReader', ()=> {
                                                    ['<', 'id', 1]))
           })
         })
+
+        describe('in', ()=> {
+          it("4 is included in [2, 4, 6]", ()=> {
+            assert.equal(
+              true,
+              spreadsheet._filterByCols([4, '', ''],
+                                        ['in', 'id', [2, 4, 6]])
+            )
+          })
+          it("4 is not included in [2, 5, 6]", ()=> {
+            assert.equal(
+              false,
+              spreadsheet._filterByCols([4, '', ''],
+                                        ['in', 'id', [2, 5, 6]])
+            )
+          })
+        })
       })
     })
   })
