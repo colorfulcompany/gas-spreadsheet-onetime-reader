@@ -64,3 +64,12 @@ result
   ...
 ]
 ```
+
+Requirements for bundling this package
+======================================
+
+With version 0.5.5, you need to add these dependencies as below, for using this package to downloading from GitHub and building with Babel.
+
+ * babel-plugin-transform-class-properties
+ * babel-preset-es2015
+ * babel-preset-gas
