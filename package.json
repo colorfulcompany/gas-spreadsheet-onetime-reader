@@ -5,10 +5,11 @@
   "main": "dist/spreadsheet_onetime_reader.js",
   "scripts": {
     "build": "babel lib --out-dir dist",
+    "clean": "git ls-files -o -X .gitignore -z | xargs -0 rm",
     "node": "node --require babel-register",
     "test": "mocha --require intelli-espower-loader --require babel-register --recursive test",
     "lint": "eslint lib",
-    "postinstall": "npm run build",
+    "prepack": "npm run clean && npm run build",
     "doc": "jsdoc -r -P ./package.json -d ./doc lib/"
   },
   "repository": {
@@ -17,7 +18,7 @@
   },
   "keywords": [
     "gas",
-    "googlesapps",
+    "googleapps",
     "spreadsheet"
   ],
   "author": "Colorful Company,Inc.",
