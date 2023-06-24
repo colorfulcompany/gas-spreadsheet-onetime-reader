@@ -1,6 +1,6 @@
 {
   "name": "@colorfulcompany/gas-spreadsheet-onetime-reader",
-  "version": "0.5.6",
+  "version": "1.0-beta",
   "description": "simple spreadsheet reader ( currently limited with read once )",
   "main": "dist/spreadsheet_onetime_reader.js",
   "scripts": {
