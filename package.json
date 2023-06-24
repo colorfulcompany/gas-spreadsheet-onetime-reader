@@ -45,33 +45,5 @@
     "mocha": "^3.4.2",
     "power-assert": "^1.4.4",
     "sinon": "^2.3.5"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVerision": 6,
-      "sourceType": "module"
-    },
-    "extends": "eslint:recommended",
-    "env": {
-      "node": true,
-      "browser": true
-    },
-    "rules": {
-      "indent": [
-        "error",
-        2
-      ],
-      "no-var": "error",
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ],
-      "camelcase": "error"
-    }
   }
 }
