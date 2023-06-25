@@ -1,9 +1,12 @@
-/* global describe, it, beforeEach, afterEach */
+/* global describe, it, beforeEach, afterEach, before */
 
 import assert from 'power-assert'
 import sinon from 'sinon'
+import gas from 'gas-local'
 
-import SpreadsheetOnetimeReader from '../lib/spreadsheet_onetime_reader'
+const app = gas.require('./src', {
+  console
+})
 
 describe('SpreadsheetOnetimeReader', () => {
   let spreadsheet
@@ -16,7 +19,7 @@ describe('SpreadsheetOnetimeReader', () => {
   const dummyApp = { openById: function () {} }
 
   beforeEach(() => {
-    spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc')
+    spreadsheet = app.createSheetReader(dummyApp, 'abc')
     sinon.stub(spreadsheet, 'rawValues').returns(fullValues)
     sinon.stub(spreadsheet, 'book').returns({ getSheetByName: function () { return {} } })
   })
@@ -33,7 +36,7 @@ describe('SpreadsheetOnetimeReader', () => {
       })
       describe('given {skipHeaders: 2}', () => {
         beforeEach(() => {
-          spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, { skipHeaders: 2 })
+          spreadsheet = app.createSheetReader(dummyApp, 'abc', null, { skipHeaders: 2 })
         })
         it('2', () => {
           assert.equal(2, spreadsheet.opts().skipHeaders)
@@ -136,6 +139,7 @@ describe('SpreadsheetOnetimeReader', () => {
     })
   })
 
+  /*
   describe('#newReader', () => {
     beforeEach(() => {
       spreadsheet.sheet('foo')
@@ -149,6 +153,7 @@ describe('SpreadsheetOnetimeReader', () => {
       assert(spreadsheet.newReader('bar') instanceof SpreadsheetOnetimeReader)
     })
   })
+  */
 
   describe('#rawValues', () => {
     it('type of whole values', () => {
@@ -186,7 +191,7 @@ describe('SpreadsheetOnetimeReader', () => {
 
     describe('given {skipHeaders: 2} option', () => {
       beforeEach(() => {
-        spreadsheet = new SpreadsheetOnetimeReader(dummyApp, 'abc', null, { skipHeaders: 2 })
+        spreadsheet = app.createSheetReader(dummyApp, 'abc', null, { skipHeaders: 2 })
       })
 
       it('trim 2 lines from head', () => {

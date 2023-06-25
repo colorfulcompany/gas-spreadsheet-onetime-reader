@@ -1,9 +1,8 @@
-import _ from 'lodash/lodash.min'
-import SimpleMultiplicity from './simple_multiplicity'
+/* global createMultiplicity, merge, flatmap, uniq, includes */
 
 class SheetAlreadySpecified extends Error { get name () { return 'SheetAlreadySpecified' } }
 
-class SpreadsheetOnetimeReader {
+class SpreadsheetOnetimeReader { // eslint-disable-line no-unused-vars
   /**
    * @param {SpreadsheetApp} app
    * @param {String}         bookId
@@ -50,7 +49,7 @@ class SpreadsheetOnetimeReader {
    */
   opts (opts = null) {
     if (opts) {
-      this._opts = _.merge(this._opts, opts)
+      this._opts = merge(this._opts, opts)
     }
 
     return this._opts
@@ -205,7 +204,7 @@ class SpreadsheetOnetimeReader {
    * @return {Array}
    */
   search () {
-    if (arguments[1] instanceof Array) {
+    if (Array.isArray(arguments[1])) {
       const conds = arguments[1]
       let multiplicity
       let result
@@ -215,7 +214,7 @@ class SpreadsheetOnetimeReader {
           multiplicity = conds.length
           result = []
 
-          SimpleMultiplicity.from(_.flatMap(conds, (cond) => {
+          createMultiplicity(flatmap(conds, (cond) => {
             const [op, colName, needle] = cond
             return this.search(op, colName, needle)
           })).each((e, m) => {
@@ -226,7 +225,7 @@ class SpreadsheetOnetimeReader {
 
           return this._found
         case 'or':
-          return _.uniq(_.flatMap(conds, (cond) => {
+          return uniq(flatmap(conds, (cond) => {
             const [op, colName, needle] = cond
 
             this._found = this.search(op, colName, needle)
@@ -312,7 +311,7 @@ class SpreadsheetOnetimeReader {
           return val <= needle
         case 'in':
         case 'includes':
-          return _.includes(needle, val)
+          return includes(needle, val)
         default:
           return false
       }
@@ -357,4 +356,13 @@ class SpreadsheetOnetimeReader {
   }
 }
 
-export { SheetAlreadySpecified, SpreadsheetOnetimeReader as default }
+/**
+ * @param {SpreadsheetApp} app
+ * @param {String}         bookId
+ * @param {String}         sheetName
+ * @param {Object}         opts
+ * @return {SpreadsheetOnetimeReader}
+ */
+function createSheetReader (app, bookId, sheetName = null, opts = {}) { // eslint-disable-line no-unused-vars
+  return new SpreadsheetOnetimeReader(app, bookId, sheetName, opts)
+}

@@ -43,4 +43,10 @@ class SimpleMultiplicity {
   }
 }
 
-export { SimpleMultiplicity as default }
+/**
+ * @param {Array} ary
+ * @return {SimpleMultiplicity}
+ */
+function createMultiplicity (ary) { // eslint-disable-line no-unused-vars
+  return SimpleMultiplicity.from(ary)
+}
