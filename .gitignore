@@ -1,7 +1,6 @@
 *~
 *.bak
 node_modules
-dist
 .DS_Store
 ._*
 doc/
