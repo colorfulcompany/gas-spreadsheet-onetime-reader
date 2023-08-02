@@ -5,13 +5,13 @@ class SheetAlreadySpecified extends Error { get name () { return 'SheetAlreadySp
 class SpreadsheetOnetimeReader { // eslint-disable-line no-unused-vars
   /**
    * @param {SpreadsheetApp} app
-   * @param {String}         bookId
-   * @param {String}         sheetName
-   * @param {Object}         opts
+   * @param {String}         [bookId]
+   * @param {String}         [sheetName]
+   * @param {Object}         [opts]
    */
-  constructor (app, bookId, sheetName = null, opts = {}) {
+  constructor (app, bookId = null, sheetName = null, opts = {}) {
     this._app = app
-    this._bookId = bookId
+    this._bookId = bookId || app.getActiveSpreadsheet().getId()
 
     this._opts = this.defaultOpts()
     this._sheet = undefined
@@ -358,11 +358,11 @@ class SpreadsheetOnetimeReader { // eslint-disable-line no-unused-vars
 
 /**
  * @param {SpreadsheetApp} app
- * @param {String}         bookId
- * @param {String}         sheetName
- * @param {Object}         opts
+ * @param {String}         [bookId]
+ * @param {String}         [sheetName]
+ * @param {Object}         [opts]
  * @return {SpreadsheetOnetimeReader}
  */
-function createSheetReader (app, bookId, sheetName = null, opts = {}) { // eslint-disable-line no-unused-vars
+function createSheetReader (app, bookId = null, sheetName = null, opts = {}) { // eslint-disable-line no-unused-vars
   return new SpreadsheetOnetimeReader(app, bookId, sheetName, opts)
 }

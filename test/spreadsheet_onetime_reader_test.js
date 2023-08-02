@@ -16,15 +16,95 @@ describe('SpreadsheetOnetimeReader', () => {
     [2, 'eoka', 'United States'],
     [3, 'kikuke', 'United Kingdom']
   ]
-  const dummyApp = { openById: function () {} }
+  // fake Sheet class
+  const fakeSheet = {
+    getDataRange () {
+      return {
+        getValues () {
+          return fullValues
+        }
+      }
+    }
+  }
+  // fake SpreadsheetApp
+  const dummyApp = {
+    openById () {
+      return {
+        getSheetByName () { return fakeSheet },
+        getActiveSheet () { return fakeSheet }
+      }
+    },
+    getActiveSpreadsheet () {
+      return { getId () {} }
+    }
+  }
 
   beforeEach(() => {
     reader = app.createSheetReader(dummyApp, 'abc')
-    sinon.stub(reader, 'rawValues').returns(fullValues)
-    sinon.stub(reader, 'book').returns({ getSheetByName: function () { return {} } })
   })
-  afterEach(() => {
-    if (typeof reader.rawValues.restore !== 'undefined') { reader.rawValues.restore() }
+
+  describe('#createSheetReader', () => {
+    let mockApp, mockActiveSpreadsheet
+
+    afterEach(() => { mockApp.restore() })
+
+    function makeActiveSpreadsheetMock (app) {
+      mockApp = sinon.mock(dummyApp)
+      mockApp.expects('getActiveSpreadsheet').once().returns((() => {
+        const dummyActiveSpreadsheet = {
+          getId () {}
+        }
+        mockActiveSpreadsheet = sinon.mock(dummyActiveSpreadsheet)
+        mockActiveSpreadsheet.expects('getId').once()
+
+        return dummyActiveSpreadsheet
+      })())
+    }
+
+    describe('with SpreadsheetApp only', () => {
+      // Spreadsheet も Sheet も Active なものを取得
+      beforeEach(() => { makeActiveSpreadsheetMock(dummyApp) })
+
+      it('auto set from active spreadsheet', () => {
+        reader = app.createSheetReader(dummyApp)
+        reader.rawValues()
+
+        mockApp.verify()
+        mockActiveSpreadsheet.verify()
+      })
+    })
+
+    describe('and spreadsheet id', () => {
+      // 与えられた Spreadsheet Id から取得
+      beforeEach(() => {
+        mockApp = sinon.mock(dummyApp)
+        mockApp.expects('getActiveSpreadsheet').never()
+      })
+
+      it('manual set from given spreadsheet', () => {
+        reader = app.createSheetReader(dummyApp, 'def')
+        reader.rawValues()
+
+        mockApp.verify()
+      })
+    })
+
+    describe('with spreadsheet and sheet', () => {
+      // 与えられた Spreadsheet Id から取得
+      // see #sheet test
+      beforeEach(() => {
+        mockApp = sinon.mock(dummyApp)
+        mockApp.expects('getActiveSpreadsheet').never()
+      })
+
+      it('manually set spreadsheet id and sheet name', () => {
+        reader = app.createSheetReader(dummyApp, 'abc', 'Sheet 1')
+        reader.rawValues()
+
+        assert(Array.isArray(reader.rawValues()))
+        mockApp.verify()
+      })
+    })
   })
 
   describe('#opts', () => {
@@ -107,31 +187,20 @@ describe('SpreadsheetOnetimeReader', () => {
       })
     })
 
-    describe('clear memoized _values when switch sheet', () => {
-      it('', () => {
-        reader.sheet('foo')
-        assert.equal('undefined', typeof reader._values)
-      })
-    })
-
     describe('sheet specified twice is not allowed', () => {
-      beforeEach(() => {
-        reader.sheet('foo')
-      })
       it('throw error', () => {
         assert.throws(() => { reader.sheet('bar') }, /{}/)
       })
     })
 
     describe('not specified sheetName and return ActiveSheet', () => {
-      beforeEach(() => {
-        reader.book.restore()
-        sinon.stub(reader, 'book').returns({ getActiveSheet: function () { return {} } })
-      })
+      let book
+      afterEach(() => { book.restore() })
 
       it('called getActiveSheet()', () => {
-        const book = sinon.mock(reader.book())
+        book = sinon.mock(reader.book())
         book.expects('getActiveSheet').once()
+        book.expects('getSheetByName').never()
         reader.sheet()
 
         book.verify()
@@ -218,11 +287,6 @@ describe('SpreadsheetOnetimeReader', () => {
   })
 
   describe('#col', () => {
-    beforeEach(() => {
-      reader.rawValues.restore()
-      sinon.stub(reader, 'rawValues').returns(fullValues)
-    })
-
     it('has given valid colName coutry and return valid array', () => {
       assert.deepEqual(
         ['Japan', 'United States', 'United Kingdom'],
@@ -336,7 +400,6 @@ describe('SpreadsheetOnetimeReader', () => {
 
       describe('conds tree', () => {
         beforeEach(() => {
-          reader.rawValues.restore()
           sinon.stub(reader, 'rawValues').returns(
             [
               ['id', 'name', 'country'],
@@ -345,6 +408,9 @@ describe('SpreadsheetOnetimeReader', () => {
               [2, 'eoka', 'United States'],
               [3, 'kikuke', 'United Kingdom']
             ])
+        })
+        afterEach(() => {
+          reader.rawValues.restore()
         })
 
         it('or-and', () => {
@@ -471,11 +537,6 @@ describe('SpreadsheetOnetimeReader', () => {
   })
 
   describe('#row', () => {
-    beforeEach(() => {
-      reader.rawValues.restore()
-      sinon.stub(reader, 'rawValues').returns(fullValues)
-    })
-
     it('row 0 is [1, "aiu", "Japan"]', () => {
       assert.deepEqual([1, 'aiu', 'Japan'], reader.row(0))
     })
