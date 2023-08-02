@@ -11,8 +11,17 @@ SpreadsheetApp returns Array of Array structure "[ [], [] ]", but it's hard to h
 
 # Usage
 
+## Prepare
+
+ 1. clone this repo
+ 2. clasp init & clasp push
+ 3. deploy this as Library and memo Library ID from Project settings
+ 4. add Library with memoed ID from Script Editor
+
+## create Reader from Apps Script Project
+
 ```javascript
-let sheet = new SpreadsheetOnetimeReader(
+const reader sheet = SpreadsheetOnetimeReader.createReader(
   SpreadsheetApp,
   <bookId>,
   <sheetName>,
@@ -20,8 +29,8 @@ let sheet = new SpreadsheetOnetimeReader(
     skipHeaders: <num>
   })
 
-sheet.search('and', [ ['~', 'id', /^201706[0-9]+/], ['==', 'name', 'Aiu'] ])
-sheet.toObject()
+reader.search('and', [ ['~', 'id', /^201706[0-9]+/], ['==', 'name', 'Aiu'] ])
+reader.toObject()
 ```
 
 result
@@ -45,8 +54,8 @@ result
 and narrowing with `pickFields` option
 
 ```javascript
-sheet.opts({pickFields: ['id', 'point']})
-sheet.toObject()
+reader.opts({pickFields: ['id', 'point']})
+reader.toObject()
 ```
 
 result
