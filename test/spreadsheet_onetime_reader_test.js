@@ -42,18 +42,16 @@ describe('SpreadsheetOnetimeReader', () => {
   })
 
   describe('#createSheetReader', () => {
-    let mockApp, mockActiveSpreadsheet
+    let mockApp
 
     afterEach(() => { mockApp.restore() })
 
-    function makeActiveSpreadsheetMock (app) {
-      mockApp = sinon.mock(dummyApp)
-      mockApp.expects('getActiveSpreadsheet').once().returns(fakeSpreadsheet)
-    }
-
     describe('with SpreadsheetApp only', () => {
       // Spreadsheet も Sheet も Active なものを取得
-      beforeEach(() => { makeActiveSpreadsheetMock(dummyApp) })
+      beforeEach(() => {
+        mockApp = sinon.mock(dummyApp)
+        mockApp.expects('getActiveSpreadsheet').once().returns(fakeSpreadsheet)
+      })
 
       it('auto set from active spreadsheet', () => {
         reader = app.createSheetReader(dummyApp)
@@ -63,7 +61,7 @@ describe('SpreadsheetOnetimeReader', () => {
       })
     })
 
-    describe('and spreadsheet id', () => {
+    describe('and spreadsheet object', () => {
       // 与えられた Spreadsheet Id から取得
       beforeEach(() => {
         mockApp = sinon.mock(dummyApp)
@@ -183,21 +181,21 @@ describe('SpreadsheetOnetimeReader', () => {
     })
 
     describe('not specified sheetName and return ActiveSheet', () => {
-      let book
+      let mockSpreadsheet
 
       beforeEach(() => {
-        book = sinon.mock(fakeSpreadsheet)
-        book.expects('getActiveSheet').once().returns(fakeSheet)
-        book.expects('getSheetByName').never()
+        mockSpreadsheet = sinon.mock(fakeSpreadsheet)
+        mockSpreadsheet.expects('getActiveSheet').once().returns(fakeSheet)
+        mockSpreadsheet.expects('getSheetByName').never()
       })
 
-      afterEach(() => { book.restore() })
+      afterEach(() => { mockSpreadsheet.restore() })
 
       it('getActiveSheet() called', () => {
         reader = app.createSheetReader(dummyApp, fakeSpreadsheet)
         reader.sheet()
 
-        book.verify()
+        mockSpreadsheet.verify()
       })
     })
   })
