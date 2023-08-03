@@ -26,21 +26,19 @@ describe('SpreadsheetOnetimeReader', () => {
       }
     }
   }
+  const fakeSpreadsheet = {
+    getSheetByName () { return fakeSheet },
+    getActiveSheet () { return fakeSheet }
+  }
   // fake SpreadsheetApp
   const dummyApp = {
-    openById () {
-      return {
-        getSheetByName () { return fakeSheet },
-        getActiveSheet () { return fakeSheet }
-      }
-    },
     getActiveSpreadsheet () {
-      return { getId () {} }
+      return fakeSpreadsheet
     }
   }
 
   beforeEach(() => {
-    reader = app.createSheetReader(dummyApp, 'abc')
+    reader = app.createSheetReader(dummyApp, fakeSpreadsheet)
   })
 
   describe('#createSheetReader', () => {
@@ -50,15 +48,7 @@ describe('SpreadsheetOnetimeReader', () => {
 
     function makeActiveSpreadsheetMock (app) {
       mockApp = sinon.mock(dummyApp)
-      mockApp.expects('getActiveSpreadsheet').once().returns((() => {
-        const dummyActiveSpreadsheet = {
-          getId () {}
-        }
-        mockActiveSpreadsheet = sinon.mock(dummyActiveSpreadsheet)
-        mockActiveSpreadsheet.expects('getId').once()
-
-        return dummyActiveSpreadsheet
-      })())
+      mockApp.expects('getActiveSpreadsheet').once().returns(fakeSpreadsheet)
     }
 
     describe('with SpreadsheetApp only', () => {
@@ -70,7 +60,6 @@ describe('SpreadsheetOnetimeReader', () => {
         reader.rawValues()
 
         mockApp.verify()
-        mockActiveSpreadsheet.verify()
       })
     })
 
@@ -82,7 +71,7 @@ describe('SpreadsheetOnetimeReader', () => {
       })
 
       it('manual set from given spreadsheet', () => {
-        reader = app.createSheetReader(dummyApp, 'def')
+        reader = app.createSheetReader(dummyApp, fakeSpreadsheet)
         reader.rawValues()
 
         mockApp.verify()
@@ -98,7 +87,7 @@ describe('SpreadsheetOnetimeReader', () => {
       })
 
       it('manually set spreadsheet id and sheet name', () => {
-        reader = app.createSheetReader(dummyApp, 'abc', 'Sheet 1')
+        reader = app.createSheetReader(dummyApp, fakeSpreadsheet, 'Sheet 1')
         reader.rawValues()
 
         assert(Array.isArray(reader.rawValues()))
@@ -116,7 +105,7 @@ describe('SpreadsheetOnetimeReader', () => {
       })
       describe('given {skipHeaders: 2}', () => {
         beforeEach(() => {
-          reader = app.createSheetReader(dummyApp, 'abc', null, { skipHeaders: 2 })
+          reader = app.createSheetReader(dummyApp, fakeSpreadsheet, null, { skipHeaders: 2 })
         })
         it('2', () => {
           assert.equal(2, reader.opts().skipHeaders)
@@ -260,7 +249,7 @@ describe('SpreadsheetOnetimeReader', () => {
 
     describe('given {skipHeaders: 2} option', () => {
       beforeEach(() => {
-        reader = app.createSheetReader(dummyApp, 'abc', null, { skipHeaders: 2 })
+        reader = app.createSheetReader(dummyApp, fakeSpreadsheet, null, { skipHeaders: 2 })
       })
 
       it('trim 2 lines from head', () => {

@@ -73,3 +73,29 @@ result
   ...
 ]
 ```
+
+## How to call as a function from within Spreadsheet
+
+prepare function in Apps Script Editor
+
+```javascript
+/**
+ * @customfunction
+ */
+function readerSearch () {
+  const reader = SpreadsheetOnetimeReader.createReader(SpreadsheetApp)
+
+  return reader.search(
+    'and',
+    [
+      ['~', 'id', /^201706[0-9]+/],
+      ['==', 'name', 'Aiu']
+    ])
+}
+```
+
+call function in Spreadsheet
+
+```
+=readerSearch()
+```
