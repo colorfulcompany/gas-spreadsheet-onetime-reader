@@ -23,11 +23,11 @@ SpreadsheetApp returns Array of Array structure "[ [], [] ]", but it's hard to h
 ```javascript
 const reader sheet = SpreadsheetOnetimeReader.createReader(
   SpreadsheetApp,
-  <bookId>,
-  <sheetName>,
-  opts = {
+  [bookId],
+  [sheetName],
+  [opts = {
     skipHeaders: <num>
-  })
+  }])
 
 reader.search('and', [ ['~', 'id', /^201706[0-9]+/], ['==', 'name', 'Aiu'] ])
 reader.toObject()
