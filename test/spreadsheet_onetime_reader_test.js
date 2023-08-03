@@ -184,12 +184,17 @@ describe('SpreadsheetOnetimeReader', () => {
 
     describe('not specified sheetName and return ActiveSheet', () => {
       let book
+
+      beforeEach(() => {
+        book = sinon.mock(fakeSpreadsheet)
+        book.expects('getActiveSheet').once().returns(fakeSheet)
+        book.expects('getSheetByName').never()
+      })
+
       afterEach(() => { book.restore() })
 
-      it('called getActiveSheet()', () => {
-        book = sinon.mock(reader.book())
-        book.expects('getActiveSheet').once()
-        book.expects('getSheetByName').never()
+      it('getActiveSheet() called', () => {
+        reader = app.createSheetReader(dummyApp, fakeSpreadsheet)
         reader.sheet()
 
         book.verify()

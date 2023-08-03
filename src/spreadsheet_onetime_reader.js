@@ -86,7 +86,7 @@ class SpreadsheetOnetimeReader { // eslint-disable-line no-unused-vars
           this._sheet = sheet
         }
       }
-    } else {
+    } else if (!this._sheet) {
       this._sheet = this.book().getActiveSheet()
     }
 
