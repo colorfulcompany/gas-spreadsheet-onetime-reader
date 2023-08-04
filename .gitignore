@@ -1,7 +1,8 @@
+.clasp.json
+appsscript.json
 *~
 *.bak
 node_modules
-dist
 .DS_Store
 ._*
 doc/

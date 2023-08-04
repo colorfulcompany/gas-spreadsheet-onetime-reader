@@ -1,16 +1,14 @@
 {
   "name": "@colorfulcompany/gas-spreadsheet-onetime-reader",
-  "version": "0.5.6",
+  "version": "1.0.0",
+  "type": "module",
   "description": "simple spreadsheet reader ( currently limited with read once )",
-  "main": "dist/spreadsheet_onetime_reader.js",
   "scripts": {
-    "build": "babel lib --out-dir dist",
     "clean": "git ls-files -o -X .gitignore -z | xargs -0 rm",
-    "node": "node --require babel-register",
-    "test": "mocha --require intelli-espower-loader --require babel-register --recursive test",
-    "lint": "eslint lib",
-    "prepack": "npm run clean && npm run build",
-    "doc": "jsdoc -r -P ./package.json -d ./doc lib/"
+    "test": "mocha --recursive test",
+    "lint": "eslint src test",
+    "doc": "jsdoc -c jsdoc.json -d ./doc -a all",
+    "importDeps": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -27,47 +25,23 @@
     "url": "https://github.com/colorfulcompany/gas-spreadsheet-onetime-reader/issues"
   },
   "homepage": "https://github.com/colorfulcompany/gas-spreadsheet-onetime-reader#readme",
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-gas": "^1.0.0",
-    "babel-register": "^6.24.1",
-    "eslint": "^4.1.1",
-    "intelli-espower-loader": "^1.0.1",
-    "jsdoc": "^3.4.3",
-    "mocha": "^3.4.2",
-    "power-assert": "^1.4.4",
-    "sinon": "^2.3.5"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVerision": 6,
-      "sourceType": "module"
-    },
-    "extends": "eslint:recommended",
-    "env": {
-      "node": true,
-      "browser": true
-    },
-    "rules": {
-      "indent": [
-        "error",
-        2
-      ],
-      "no-var": "error",
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ],
-      "camelcase": "error"
-    }
+    "@faker-js/faker": "^8.0.2",
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "eslint": "^8.43.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-standard-config": "^2.4.1",
+    "gas-local": "^1.3.1",
+    "jsdoc": "^4.0.2",
+    "lodash.flatmap": "^4.5.0",
+    "lodash.includes": "^4.3.0",
+    "lodash.merge": "^4.6.2",
+    "lodash.uniq": "^4.5.0",
+    "mocha": "^10.2.0",
+    "power-assert": "^1.6.1",
+    "rollup": "^3.25.1",
+    "sinon": "^15.2.0"
   }
 }
