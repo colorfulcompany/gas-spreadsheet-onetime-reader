@@ -23,7 +23,7 @@ SpreadsheetApp returns Array of Array structure "[ [], [] ]", but it's hard to h
 ```javascript
 const reader sheet = SpreadsheetOnetimeReader.createReader(
   SpreadsheetApp,
-  [bookId],
+  [book],
   [sheetName],
   [opts = {
     skipHeaders: <num>
