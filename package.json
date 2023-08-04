@@ -1,6 +1,6 @@
 {
   "name": "@colorfulcompany/gas-spreadsheet-onetime-reader",
-  "version": "1.0-beta",
+  "version": "1.0.0",
   "type": "module",
   "description": "simple spreadsheet reader ( currently limited with read once )",
   "scripts": {
