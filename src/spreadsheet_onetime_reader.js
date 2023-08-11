@@ -2,6 +2,16 @@
 
 class SheetAlreadySpecified extends Error { get name () { return 'SheetAlreadySpecified' } }
 
+/**
+ * @class
+ * @property {SpreadsheetApp} _app
+ * @property {Spreadsheet} _book
+ * @property {Object} _opts
+ * @property {Sheet} _sheet
+ * @property {Array} _headers
+ * @property {Array} _values
+ * @property {Array} _found
+ */
 class SpreadsheetOnetimeReader { // eslint-disable-line no-unused-vars
   /**
    * @param {SpreadsheetApp} app

@@ -1,3 +1,26 @@
+/**
+ * Multiplicity Calculator
+ *
+ * <pre>
+ * const records1 = new SimpleMultiplicity([1, 2, 3, 3, 4, 2, 2])
+ * records1.multiplicities() // => { 1: 1, 2: 3, 3: 2, 4: 1 }
+ *
+ * const records2 = new SimpleMultiplicity(
+ * [
+ *   { key1: 'a', key2: [1, 2] },
+ *   { key1: 'a', key2: [2, 3] },
+ *   { key1: 'a', key2: [1, 2] }
+ * ])
+ * records2.multiplicities()
+ * // {
+ * //   '{"key1":"a","key2":[1,2]}': 2,
+ * //   '{"key1":"a","key2":[2,3]}': 1
+ * // }
+ * </pre>
+ *
+ * @class
+ * @property {Array} _items
+ */
 class SimpleMultiplicity {
   /**
    * @param {Array} ary
@@ -32,6 +55,10 @@ class SimpleMultiplicity {
   }
 
   /**
+   * execute function for each multiplicy record
+   *
+   * each record is automatically JSON-decoded
+   *
    * @param {callable} callback
    */
   each (callback) {
