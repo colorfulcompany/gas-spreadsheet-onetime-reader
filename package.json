@@ -7,7 +7,7 @@
     "clean": "git ls-files -o -X .gitignore -z | xargs -0 rm",
     "test": "mocha --recursive test",
     "lint": "eslint src test",
-    "doc": "jsdoc -c jsdoc.json -d ./doc -a all",
+    "doc": "jsdoc -c jsdoc.json -d ./doc -a all -r src",
     "importDeps": "rollup -c"
   },
   "repository": {

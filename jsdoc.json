@@ -2,5 +2,11 @@
   "source": {
     "includePattern": ".+\\.js$",
     "excludePattern": ".+/node_modules/.+"
-  }
+  },
+  "exclude": [
+    "src/merge.js",
+    "src/flatmap.js",
+    "src/uniq.js",
+    "src/includes.js"
+  ]
 }
